@@ -1,21 +1,15 @@
 import React from 'react';
-// import store from '../appStore';
-
-function saveTodos(todos) {
-	window.localStorage.setItem('todos', JSON.stringify(todos));
-}
+import { connect } from 'react-redux';
+import { initialState } from '../appStore';
 
 let id;
+if (initialState && initialState.todos) {
+	const { todos } = initialState;
+	id = todos.length ? todos[todos.length - 1].id + 1 : 0;
+}
 
-const AddTodo = (props, context) => {
+const AddTodo = ({ dispatch }) => {
 	let inputEl;
-	let text = '';
-	const { store } = context;
-
-	const todos = store.getState().todos;
-	id = todos.length
-		? todos[todos.length - 1].id + 1
-		: 0;
 
 	const init = (node) => {
 		console.log('init AddTodo', node);
@@ -31,14 +25,11 @@ const AddTodo = (props, context) => {
 			return;
 		}
 
-		store.dispatch({
+		dispatch({
 			type: 'ADD_TODO',
 			id: id++,
 			text: inputEl.value
 		});
-
-		console.log('id is', id);
-		saveTodos(store.getState().todos);
 
 		inputEl.value = '';
 	};
@@ -51,6 +42,4 @@ const AddTodo = (props, context) => {
 	);
 };
 
-AddTodo.contextTypes = { store: React.PropTypes.object };
-
-export default AddTodo;
+export default connect()(AddTodo);

@@ -1,44 +1,34 @@
 import React, { PropTypes } from 'react';
-// import store from '../appStore';
+import { connect } from 'react-redux';
 
+const mapStateToProps = (state, ownProps) => {
+	return {
+		active: state.visibilityFilter === ownProps.filter
+	};
+};
 
-class FilterLink extends React.Component {
-	constructor(props, context) {
-		super(props);
-		this.store = context.store;
-		this.state = this.store.getState();
-	}
-
-	componentWillMount() {
-		this.unsubscribe = this.store.subscribe(() => {
-			this.setState(this.store.getState());
-		});
-	}
-
-	componentWillUnmount() {
-		this.unsubscribe();
-	}
-
-	render() {
-		const props = this.props;
-		const state = this.state;
-		const classes = state.visibilityFilter === props.filter ? 'active' : '';
-
-		const newAction = {
+const mapDispatchToProps = (dispatch, ownProps) => {
+	return {
+		onClick: () => dispatch({
 			type: 'SET_VISIBILITY_FILTER',
-			filter: props.filter
-		};
+			filter: ownProps.filter
+		})
+	};
+};
 
-		return (
-			<a href="#"
-				className={classes}
-				onClick={() => this.store.dispatch(newAction)}
-			>
-				{props.children}
-			</a>
-		);
-	}
-}
-FilterLink.contextTypes = { store: PropTypes.object };
+const FilterLink = ({ active, onClick, children }) => {
+	const classes = active ? 'active' : '';
+	return (
+		<a href="#"
+			className={classes}
+			onClick={onClick}
+		>
+			{children}
+		</a>
+	);
+};
 
-export default FilterLink;
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(FilterLink);

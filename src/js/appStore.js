@@ -57,13 +57,13 @@ class Store {
 
 // const store = createStore(appReducer);
 
-const todoState = JSON.parse(window.localStorage.getItem('todo-state'));
-console.log('todoState', todoState);
+const initialState = JSON.parse(window.localStorage.getItem('todo-state'));
 
-// const store = new Store(appReducer, todoState || undefined);
-const store = createStore(appReducer, todoState || undefined);
+// const store = new Store(appReducer, initialState || undefined);
+const store = createStore(appReducer, initialState || undefined);
 store.subscribe(() => {
 	window.localStorage.setItem('todo-state', JSON.stringify(store.getState()));
 });
 
 export default store;
+export { initialState };
