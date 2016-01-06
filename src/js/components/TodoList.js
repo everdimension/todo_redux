@@ -1,16 +1,17 @@
 import React from 'react';
 
-const TodoList = ({ todos, onTodoToggle }) => (
+const TodoList = ({ todos, onTodoToggle, onTodoRemove }) => (
 	<div className="TodosList">
 		{todos.map(todo => (
 			<Todo key={todo.id}
 				{...todo}
-				onToggle={() => onTodoToggle(todo.id)} />
+				onToggle={() => onTodoToggle(todo.id)}
+				onRemove={() => onTodoRemove(todo.id)} />
 		))}
 	</div>
 );
 
-const Todo = ({ text, completed, onToggle }) => (
+const Todo = ({ text, completed, onToggle, onRemove }) => (
 	<p className="TodoItem" style={{
 			textDecoration: completed ?
 			'line-through' :
@@ -19,6 +20,9 @@ const Todo = ({ text, completed, onToggle }) => (
 		<i className="text-muted">todo:</i> {text}
 		<button type="button" onClick={onToggle}>
 			check
+		</button>
+		<button type="button" onClick={onRemove}>
+			&times;
 		</button>
 	</p>
 );

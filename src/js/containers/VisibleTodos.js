@@ -29,6 +29,10 @@ const mapDispatchToProps = (dispatch) => {
 		onTodoToggle: (id) => dispatch({
 			type: 'TOGGLE_TODO',
 			id
+		}),
+		onTodoRemove: (id) => dispatch({
+			type: 'DELETE_TODO',
+			id
 		})
 	};
 };

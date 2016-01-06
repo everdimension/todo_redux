@@ -9,7 +9,7 @@ function todoReducer(state={}, action) {
 				completed: completed || false
 			};
 		case 'TOGGLE_TODO':
-			return Object.assign(state, {
+			return Object.assign({}, state, {
 				completed: !state.completed
 			});
 
@@ -37,6 +37,9 @@ export default function todoListReducer(state=[], action) {
 
 				return todo;
 			});
+
+		case 'DELETE_TODO':
+			return state.filter((todo) => todo.id !== action.id);
 
 		default:
 			return state;
